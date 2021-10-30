@@ -3,8 +3,10 @@
 {% block title %}What Todo{% endblock %}
 
 {% block content %}
-    {% for l in todo_lists %}
-        {{ l.title }}
-        {{ l.slug }}
-    {% endfor %}
+    <h1>What Todo</h1>
+    <ul>
+        {% for l in todo_lists %}
+            <li><a href="{{ l.slug }}">{{ l.title }}</a></li>
+        {% endfor %}
+    </ul>
 {% endblock content %}
