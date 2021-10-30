@@ -3,5 +3,8 @@
 {% block title %}What Todo{% endblock %}
 
 {% block content %}
-    TODO
+    {% for l in todo_lists %}
+        {{ l.title }}
+        {{ l.slug }}
+    {% endfor %}
 {% endblock content %}

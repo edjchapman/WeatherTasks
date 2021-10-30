@@ -3,10 +3,10 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from todolists.views import lists
+from todolists.views import todo_lists
 
 urlpatterns = [
-    path('', lists, name='todolists'),
+    path('', todo_lists, name='todolists'),
     path('admin/', admin.site.urls),
 ]
 
