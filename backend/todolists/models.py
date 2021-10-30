@@ -7,10 +7,10 @@ class TodoList(models.Model):
     To-do list model.
     """
     title = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField()
+    slug = models.SlugField(blank=True)
 
     def __str__(self):
-        return self.title[:10]
+        return self.title
 
     def save(self, *args, **kwargs):
         self.set_slug()
@@ -30,4 +30,4 @@ class Task(models.Model):
     complete = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"List=({self.todo_list.title[:10]}) Task=({self.description[:10]})"
+        return f"List=({self.todo_list.title}) Task=({self.description})"
