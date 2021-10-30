@@ -1,14 +1,23 @@
 from django.db import models
+from django.utils.text import slugify
 
 
 class TodoList(models.Model):
     """
     To-do list model.
     """
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField()
 
     def __str__(self):
         return self.title[:10]
+
+    def save(self, *args, **kwargs):
+        self.set_slug()
+        super().save(*args, **kwargs)
+
+    def set_slug(self):
+        self.slug = slugify(self.title)[:50]
 
 
 class Task(models.Model):

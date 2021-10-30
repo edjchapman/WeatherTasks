@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.utils.text import slugify
 
 from todolists.models import TodoList, Task
 
@@ -13,6 +14,13 @@ class TodoListModelTestCase(TestCase):
         self.assertEqual(
             "Holiday List",
             todo_list.title
+        )
+
+    def test_the_slug_field_is_populated_on_save(self):
+        todo_list = TodoList.objects.create(title="Holiday List")
+        self.assertEqual(
+            slugify(todo_list.title)[:50],
+            todo_list.slug
         )
 
 
