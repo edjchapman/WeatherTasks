@@ -1,5 +1,5 @@
 from django.urls import reverse
-from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView
 
 from todolists.models import Task
 
@@ -21,7 +21,10 @@ class TaskCreateView(CreateView):
 class TaskDetailView(DetailView):
     model = Task
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     # context['now'] = timezone.now()
-    #     return context
+
+class TaskUpdateView(UpdateView):
+    model = Task
+    fields = ["complete"]
+
+    def get_success_url(self):
+        return reverse("task_detail", kwargs={"pk": self.object.pk})

@@ -8,8 +8,9 @@
     <p>{{ task.description }}</p>
     {% if not task.complete %}
         <hr />
-        <form method="post" action="{% url 'task_detail' task.id %}">
+        <form method="post" action="{% url 'task_update' task.id %}">
             {% csrf_token %}
+            <input type="hidden" name="complete" value="true" />
             <button>Mark as done</button>
         </form>
     {% endif %}
