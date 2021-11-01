@@ -132,5 +132,4 @@ dmypy.json
 data/
 
 # PyCharm
-**/.idea/workspace.xml
-**/.idea/tasks.xml
+.idea/
