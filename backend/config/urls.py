@@ -3,12 +3,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from todolists.views import TaskListView, TaskDetailView, TaskUpdateView
+from todolists.views import TaskListView, TaskDetailView
 
 urlpatterns = [
     path('', TaskListView.as_view(), name='task_list'),
     path('<int:pk>/', TaskDetailView.as_view(), name='task_detail'),
-    path('<int:pk>/update/', TaskUpdateView.as_view(), name='task_update'),
     path('admin/', admin.site.urls),
 ]
 
