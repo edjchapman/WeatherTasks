@@ -1,10 +1,9 @@
-from django.shortcuts import render
+from django.views.generic import ListView
 
-from todolists.models import TodoList
+from todolists.models import Task
 
 
-def todo_lists(request):
-    context = {
-        "todo_lists": TodoList.objects.all()
-    }
-    return render(request, "lists.html", context)
+class TaskListView(ListView):
+    model = Task
+    context_object_name = 'task_list'
+    queryset = Task.objects.all()
