@@ -21,7 +21,11 @@
 
     <ul>
         {% for t in task_list %}
-            <li>{{ t.description }}</li>
+            <li>
+                <a href="{% url 'task_detail' t.id %}">
+                    {{ t.description }}
+                </a>
+            </li>
         {% endfor %}
     </ul>
 {% endblock content %}
