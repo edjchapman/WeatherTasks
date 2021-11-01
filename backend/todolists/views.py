@@ -1,21 +1,24 @@
+from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic import ListView, CreateView, DetailView, UpdateView
+from django.views import View
+from django.views.generic import DetailView, UpdateView
 
 from todolists.models import Task
 
 
-class TaskListView(ListView):
-    model = Task
+class TaskListView(View):
+    template_name = "todolists/task_list.html"
     context_object_name = 'task_list'
-    queryset = Task.objects.all()
 
+    def get(self, request, *args, **kwargs):
+        task_list = Task.objects.all()
+        return render(request, self.template_name, {"task_list": task_list})
 
-class TaskCreateView(CreateView):
-    model = Task
-    fields = ["description"]
-
-    def get_success_url(self):
-        return reverse("task_list")
+    def post(self, request, *args, **kwargs):
+        description = request.POST.get("description")
+        if description:
+            Task.objects.create(description=description)
+        return redirect("task_list")
 
 
 class TaskDetailView(DetailView):

@@ -7,7 +7,7 @@
     <hr />
     <h2>Add Task</h2>
 
-    <form method="post" action="{% url 'task_create' %}">
+    <form method="post" action="{% url 'task_list' %}">
         {% csrf_token %}
         <label for="description">Description</label><br />
         <input type="text" id="description" name="description" />
