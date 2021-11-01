@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}What Todo{% endblock %}
+
+{% block content %}
+    <h1>What Todo</h1>
+    <hr />
+    <h2>Add Task</h2>
+
+    <form method="post" action="{% url 'task_list' %}">
+        {% csrf_token %}
+        <label for="description">Description</label><br />
+        <input id="description" type="text" name="description" />
+        <br />
+        <button>Submit</button>
+    </form>
+
+    <hr />
+
+    <h2>Tasks</h2>
+
+    <ul>
+        {% for t in task_list %}
+            <li>{{ t.description }}</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}
