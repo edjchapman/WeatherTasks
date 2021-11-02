@@ -1,6 +1,8 @@
+import requests
 from django.shortcuts import render, redirect
 from django.views import View
 
+from config.settings import OPEN_WEATHER_API_KEY
 from tasks.form_data.cities import cities
 from tasks.models import Task
 
@@ -21,11 +23,19 @@ class TaskListView(View):
 
     def post(self, request, *args, **kwargs):
         description = request.POST.get("description")
-        # city = request.POST.get("city")
-
+        city = request.POST.get("city")
+        _ = self.get_weather(city)
         if description:
             Task.objects.create(description=description)
         return redirect("task_list")
+
+    @staticmethod
+    def get_weather(city):
+        r = requests.get(
+            f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={OPEN_WEATHER_API_KEY}"
+        )
+        data = r.json()
+        return data
 
 
 class TaskDetailView(View):
