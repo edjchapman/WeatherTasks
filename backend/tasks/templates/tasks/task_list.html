@@ -9,10 +9,12 @@
 
     <form method="post" action="{% url 'task_list' %}">
         {% csrf_token %}
-        <label for="description">Description</label><br />
-        <input type="text" id="description" name="description" />
-        <br />
+        <div class="task-form">
+            <label for="description">Description</label>
+            <input type="text" id="description" name="description" />
+        </div>
         <button>Submit</button>
+
     </form>
 
     <hr />
