@@ -1,21 +1,11 @@
-# from django.contrib import admin
-#
-# from tasks.models import TodoList, Task
-#
-#
-# class TaskModelInline(admin.StackedInline):
-#     """
-#     Task model inline.
-#     """
-#     model = Task
-#     extra = 0
-#
-#
-# @admin.register(TodoList)
-# class TodoListModelAdmin(admin.ModelAdmin):
-#     """
-#     TodoList model admin.
-#     """
-#     inlines = [
-#         TaskModelInline
-#     ]
+from django.contrib import admin
+
+from tasks.models import Task
+
+
+@admin.register(Task)
+class TaskModelAdmin(admin.ModelAdmin):
+    """
+    Task model admin.
+    """
+    model = Task
