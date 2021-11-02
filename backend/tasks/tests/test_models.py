@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.utils.text import slugify
 
-from todolists.models import TodoList, Task
+from tasks.models import TodoList, Task
 
 
 class TodoListModelTestCase(TestCase):

@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect
 from django.views import View
 
-from todolists.models import Task
+from tasks.models import Task
 
 
 class TaskListView(View):
     """
     View to handle adding and listing tasks.
     """
-    template_name = "todolists/task_list.html"
+    template_name = "tasks/task_list.html"
     context_object_name = 'task_list'
 
     def get(self, request, *args, **kwargs):
@@ -26,7 +26,7 @@ class TaskDetailView(View):
     """
     View to handle updating individual tasks.
     """
-    template_name = "todolists/task_detail.html"
+    template_name = "tasks/task_detail.html"
     context_object_name = 'task_detail'
 
     def get(self, request, *args, **kwargs):
