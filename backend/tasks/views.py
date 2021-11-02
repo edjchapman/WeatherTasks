@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 
+from tasks.form_data.cities import cities
 from tasks.models import Task
 
 
@@ -12,11 +13,16 @@ class TaskListView(View):
     context_object_name = 'task_list'
 
     def get(self, request, *args, **kwargs):
-        task_list = Task.objects.all()
-        return render(request, self.template_name, {"task_list": task_list})
+        context = {
+            "task_list": Task.objects.all(),
+            "cities": sorted(cities)
+        }
+        return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
         description = request.POST.get("description")
+        # city = request.POST.get("city")
+
         if description:
             Task.objects.create(description=description)
         return redirect("task_list")

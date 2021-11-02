@@ -10,8 +10,19 @@
     <form method="post" action="{% url 'task_list' %}">
         {% csrf_token %}
         <div class="task-form">
-            <label for="description">Description</label>
+            <!-- DESCRIPTION -->
+            <label for="description">Description:</label>
             <input type="text" id="description" name="description" />
+            <!-- /DESCRIPTION -->
+
+            <!-- CITY -->
+            <label for="city">Nearest City:</label>
+            <select id="city" name="city">
+                {% for c in cities %}
+                    <option value="{{ c }}">{{ c }}</option>
+                {% endfor cities %}
+            </select>
+            <!-- /CITY -->
         </div>
         <button>Submit</button>
 
