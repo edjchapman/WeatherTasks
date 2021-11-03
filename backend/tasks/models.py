@@ -26,40 +26,61 @@ class Task(models.Model):
 
     def set_weather(self):
         if not self.complete:
-            weather_id = self.get_weather_id(city=self.nearest_city)
-            self.weather_colour = self.get_weather_colour(weather_id=weather_id)
+            self.weather_colour = self.parse_weather()
+
+    def get_weather_colour_display(self):
+        return self.weather_colour if self.complete else self.parse_weather()
 
     @staticmethod
-    def get_weather_id(city: str) -> int:
+    def get_weather(city: str) -> dict:
         """
         Make API call for weather for the neaarest city.
         Return the first weather group digit.
         """
-        group = 0
+        weather_data = {}
         try:
             r = requests.get(
-                f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={OPEN_WEATHER_API_KEY}"
+                f"https://api.openweathermap.org/data/2.5/weather",
+                params={
+                    "appid": OPEN_WEATHER_API_KEY,
+                    "q": city,
+                    "units": "metric"
+                }
             )
-            response = r.json()
-            group_id = response["weather"][0]["id"]
-            group = int(str(group_id)[:1])
+            r.raise_for_status()
+            weather_data = r.json()
         except Exception as e:
             logger.exception(f"Problem getting weather group: {e}")
-        return group
+        return weather_data
+
+    def parse_weather(self) -> str:
+        """
+        Decide colour based on weather conditions and temperature retrieved from API.
+        """
+        weather_colour = ""
+        try:
+            weather_data = self.get_weather(city=self.nearest_city)
+            group_id = weather_data["weather"][0]["id"]
+            temp_feels_like = weather_data["main"]["feels_like"]
+            if group_id < 600:  # Wet
+                weather_colour = "blue"
+            elif group_id == 800:  # Clear
+                weather_colour = self.colour_from_temperature(temp_feels_like)
+            else:  # Cloudy/Atmosphere
+                weather_colour = self.colour_from_temperature(temp_feels_like)
+        except Exception as e:
+            logger.exception(f"Problem parsing weather: {e}")
+        return weather_colour
 
     @staticmethod
-    def get_weather_colour(weather_id=0):
-        weather_colour = "white"
-        try:
-            weather_colour = {
-                0: "white",
-                2: "blue",  # Thunderstorm
-                3: "orange",  # Drizzle
-                5: "red",  # Rain
-                6: "red",  # Snow
-                7: "red",  # Atmosphere
-                8: "red"  # Clear
-            }[weather_id]
-        except Exception as e:
-            logger.exception(f"Problem getting weather colour: {e}")
+    def colour_from_temperature(temp_feels_like):
+        """
+        In clear or cloudy conditions we need to check the temp for the colour.
+        """
+        if temp_feels_like > 30:  # Hot
+            weather_colour = "red"
+        elif 21 < temp_feels_like < 30:  # Warm
+            weather_colour = "orange"
+        else:  # Cold
+            weather_colour = "blue"
         return weather_colour
