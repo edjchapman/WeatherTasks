@@ -34,7 +34,7 @@
 
     <ul>
         {% for t in task_list %}
-            <li>
+            <li class="{{ t.get_weather_colour_display }}">
                 <a href="{% url 'task_detail' t.id %}">
                     {{ t.description }}
                 </a>
