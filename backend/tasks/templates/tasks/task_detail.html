@@ -3,15 +3,28 @@
 {% block title %}What Todo{% endblock %}
 
 {% block content %}
-    <h1>Task</h1>
+    <h1>{{ task.description }}</h1>
     <strong>Status: </strong>{{ task.complete|yesno:"Complete,Not Complete" }}
-    <p>{{ task.description }}</p>
     {% if not task.complete %}
         <hr />
         <form method="post" action="{% url 'task_detail' task.id %}">
             {% csrf_token %}
-            <input type="hidden" name="complete" value="true" />
-            <button>Mark as done</button>
+            <!-- DESCRIPTION -->
+            <label for="description">Edit Description:</label>
+            <input type="text" id="description" name="description" />
+            <!-- /DESCRIPTION -->
+            <!-- SAVE -->
+            <input type="hidden" name="action" value="save" />
+            <button>Save</button>
+            <!-- /SAVE -->
+            <!-- COMPLETE -->
+            <input type="hidden" name="action" value="complete" />
+            <button>Complete</button>
+            <!-- /COMPLETE -->
+            <!-- DELETE -->
+            <input type="hidden" name="action" value="delete" />
+            <button>Delete</button>
+            <!-- /DELETE -->
         </form>
     {% endif %}
     <hr />
