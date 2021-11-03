@@ -31,13 +31,16 @@ class Task(models.Model):
     def get_weather_colour_display(self):
         return self.weather_colour if self.complete else self.parse_weather()
 
+    def temp_feels_like(self):
+        _, temp = self.get_weather(city=self.nearest_city)
+        return temp
+
     @staticmethod
-    def get_weather(city: str) -> dict:
+    def get_weather(city: str) -> tuple:
         """
         Make API call for weather for the neaarest city.
         Return the first weather group digit.
         """
-        weather_data = {}
         try:
             r = requests.get(
                 f"https://api.openweathermap.org/data/2.5/weather",
@@ -49,9 +52,11 @@ class Task(models.Model):
             )
             r.raise_for_status()
             weather_data = r.json()
+            group_id = weather_data["weather"][0]["id"]
+            temp_feels_like = weather_data["main"]["feels_like"]
+            return group_id, temp_feels_like
         except Exception as e:
             logger.exception(f"Problem getting weather group: {e}")
-        return weather_data
 
     def parse_weather(self) -> str:
         """
@@ -59,9 +64,7 @@ class Task(models.Model):
         """
         weather_colour = ""
         try:
-            weather_data = self.get_weather(city=self.nearest_city)
-            group_id = weather_data["weather"][0]["id"]
-            temp_feels_like = weather_data["main"]["feels_like"]
+            group_id, temp_feels_like = self.get_weather(city=self.nearest_city)
             if group_id < 600:  # Wet
                 weather_colour = "blue"
             elif group_id == 800:  # Clear

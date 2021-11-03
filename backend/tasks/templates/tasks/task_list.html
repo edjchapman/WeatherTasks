@@ -36,7 +36,8 @@
         {% for t in task_list %}
             <li class="{{ t.get_weather_colour_display }}">
                 <a href="{% url 'task_detail' t.id %}">
-                    {{ t.description }}
+                    {{ t.description }} |
+                    {{ t.temp_feels_like }} °C
                 </a>
             </li>
         {% endfor %}
