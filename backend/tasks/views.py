@@ -42,9 +42,15 @@ class TaskDetailView(View):
         return render(request, self.template_name, {"task": task})
 
     def post(self, request, *args, **kwargs):
-        complete = request.POST.get("complete")
         task = Task.objects.get(id=kwargs.get("pk"))
-        if complete:
-            task.complete = True if complete == "true" else False
+        action = request.POST.get("action")
+        if action == "complete":
+            task.complete = True
             task.save()
+        if action == "save":
+            task.description = request.POST.get("description")
+            task.save()
+        if action == "delete":
+            task.delete()
+            return redirect("task_list")
         return render(request, self.template_name, {"task": task})
