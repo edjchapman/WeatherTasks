@@ -15,6 +15,7 @@ class Task(models.Model):
     nearest_city = models.CharField(max_length=50)
     complete = models.BooleanField(default=False)
     weather_colour = models.CharField(max_length=50)
+    temperature = models.FloatField(default=0)
 
     def __str__(self):
         return self.description
@@ -27,9 +28,10 @@ class Task(models.Model):
         if not self.complete:
             wa = WeatherApi(city=self.nearest_city)
             self.weather_colour = wa.get_weather_colour()
+            self.temperature = wa.get_temp_feels_like()
 
     def get_weather_colour_display(self):
         return self.weather_colour if self.complete else WeatherApi(city=self.nearest_city).get_weather_colour()
 
-    def temp_feels_like(self):
-        return WeatherApi(city=self.nearest_city).get_temp_feels_like()
+    def get_temperature(self):
+        return self.temperature if self.complete else WeatherApi(city=self.nearest_city).get_temp_feels_like()
