@@ -1,6 +1,6 @@
-# What Todo
+# Weather Tasks
 
-Create todo lists and select the location of items.
+Add tasks and select the location.
 The colour of the items reflects the current weather conditions of the locations. 
 
 (Inititial Django project boilerplate adapted from: [edjchapman/djangoboilerplate](https://github.com/edjchapman/DjangoBoilerplate))
@@ -8,6 +8,11 @@ The colour of the items reflects the current weather conditions of the locations
 ---
 
 # Development
+
+Add Open Weather Map API key to the `.env.dev` file
+```shell
+OPEN_WEATHER_API_KEY=
+```
 
 ### Build the images and spin up the containers
 
@@ -24,7 +29,7 @@ docker-compose exec backend python manage.py migrate --noinput
 ### Postgres shell
 
 ```shell
-docker-compose exec db psql --username=what_todo --dbname=what_todo_dev
+docker-compose exec db psql --username=weather_tasks --dbname=weather_tasks_dev
 ```
 
 ---

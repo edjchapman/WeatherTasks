@@ -19,9 +19,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=what_todo
-      - POSTGRES_PASSWORD=what_todo
-      - POSTGRES_DB=what_todo_dev
+      - POSTGRES_USER=weather_tasks
+      - POSTGRES_PASSWORD=weather_tasks
+      - POSTGRES_DB=weather_tasks_dev
     env_file:
       - ./.env.dev
 volumes:
