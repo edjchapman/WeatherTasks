@@ -16,29 +16,12 @@ class WeatherApi:
         self.weather_data = self.get_weather(city)
 
     def get_temp_feels_like(self) -> int:
-        return self.weather_data["main"]["feels_like"]
-
-    @staticmethod
-    def get_weather(city: str) -> dict:
-        """
-        Make API call for weather for the neaarest city.
-        Return the first weather group digit.
-        """
-        weather_data = {}
+        temp = 0
         try:
-            r = requests.get(
-                f"https://api.openweathermap.org/data/2.5/weather",
-                params={
-                    "appid": OPEN_WEATHER_API_KEY,
-                    "q": city,
-                    "units": "metric"
-                }
-            )
-            r.raise_for_status()
-            weather_data = r.json()
+            temp = self.weather_data["main"]["feels_like"]
         except Exception as e:
             logger.exception(f"Problem getting weather group: {e}")
-        return weather_data
+        return temp
 
     def get_weather_colour(self) -> str:
         """
@@ -70,3 +53,25 @@ class WeatherApi:
         else:  # Cold
             weather_colour = "blue"
         return weather_colour
+
+    @staticmethod
+    def get_weather(city: str) -> dict:
+        """
+        Make API call for weather for the neaarest city.
+        Return the first weather group digit.
+        """
+        weather_data = {}
+        try:
+            r = requests.get(
+                f"https://api.openweathermap.org/data/2.5/weather",
+                params={
+                    "appid": OPEN_WEATHER_API_KEY,
+                    "q": city,
+                    "units": "metric"
+                }
+            )
+            r.raise_for_status()
+            weather_data = r.json()
+        except Exception as e:
+            logger.exception(f"Problem getting weather group: {e}")
+        return weather_data
