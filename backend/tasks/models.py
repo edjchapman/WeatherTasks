@@ -32,5 +32,5 @@ class Task(models.Model):
     def get_weather_colour_display(self):
         return self.weather_colour if self.complete else WeatherApi(city=self.nearest_city).get_weather_colour()
 
-    def get_temperature(self):
+    def get_temperature_display(self):
         return self.temperature if self.complete else WeatherApi(city=self.nearest_city).get_temp_feels_like()

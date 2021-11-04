@@ -37,7 +37,7 @@
             <li class="{{ t.get_weather_colour_display }}">
                 <a href="{% url 'task_detail' t.id %}">
                     {{ t.description }} |
-                    {{ t.temp_feels_like }} °C |
+                    {{ t.get_temperature_display }} °C |
                     {{ t.complete|yesno:"Complete,Not Complete" }}
                 </a>
             </li>
