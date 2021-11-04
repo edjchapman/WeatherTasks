@@ -25,10 +25,9 @@ class Task(models.Model):
         super().save(*args, **kwargs)
 
     def set_weather(self):
-        if not self.complete:
-            wa = WeatherApi(city=self.nearest_city)
-            self.weather_colour = wa.get_weather_colour()
-            self.temperature = wa.get_temp_feels_like()
+        wa = WeatherApi(city=self.nearest_city)
+        self.weather_colour = wa.get_weather_colour()
+        self.temperature = wa.get_temp_feels_like()
 
     def get_weather_colour_display(self):
         return self.weather_colour if self.complete else WeatherApi(city=self.nearest_city).get_weather_colour()
